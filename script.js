@@ -142,3 +142,53 @@ resetButton.addEventListener("click", function() {
   resetColors();
 })
 
+function initializeTipButtons() {
+  let i = 0;
+  for (i = 0; i < tipButtons.length - 1; i++) {
+    tipButtons[i].addEventListener("click", function() {
+      tipPercentValue = parseInt(this.textContent.substring(0, this.textContent.length - 1)) * 0.01;
+      calculate();
+    })
+    tipButtons[i].addEventListener("click", function() {
+      customTip.value = "";
+    })
+    tipButtons[i].addEventListener("click", changeBg, false);
+  }
+  customTip.addEventListener("input", function() {
+    if (/^\d*?\d*$/.test(this.value)) {
+      tipPercentValue = parseInt(this.value) * 0.01;
+      calculate();
+    } else {
+      if (tipPercentValue > 0) {
+        this.value = parseInt(tipPercentValue * 100).toString();
+      } else {
+        this.value = "";
+      }
+
+      this.classList.add("shake");
+      setTimeout(function() {
+        customTip.classList.remove("shake");
+      }, 1000);
+      /*if (tipPercentValue > 0) {
+        this.value = tipPercentValue.toString();
+      }*/
+    }
+  })
+  customTip.addEventListener("click", resetColors, false);
+}
+
+function calculate() {
+  if (peopleTotalValue != 0 && tipPercentValue != 0) {
+    let tipTotalValue = billTotalValue * tipPercentValue;
+    tipPerPersonValue = Math.round(((tipTotalValue / peopleTotalValue) + Number.EPSILON) * 100) / 100;
+    tipPerPerson.textContent = `${formatter.format(tipPerPersonValue)}`;
+    totalPerPersonValue = Math.round(((billTotalValue / peopleTotalValue) + Number.EPSILON) * 100) / 100;
+    totalPerPerson.textContent = `${formatter.format(totalPerPersonValue)}`;
+  } else if (peopleTotalValue != 0) {
+    totalPerPersonValue = Math.round(((billTotalValue / peopleTotalValue) + Number.EPSILON) * 100) / 100;
+    totalPerPerson.textContent = `${formatter.format(totalPerPersonValue)}`;
+  }
+}
+
+initializeTipButtons();
+

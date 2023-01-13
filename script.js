@@ -120,3 +120,25 @@ peopleTotal.addEventListener("input", function(e) {
   }
 })
 
+peopleTotal.addEventListener("keydown", function(e) {
+  let keyID = e.keyCode;
+  if (keyID === 8) {
+    if (this.value.length > 1) {
+      this.value = this.value.substring(0, this.value.length);
+    }
+  }
+})
+
+resetButton.addEventListener("click", function() {
+  billTotal.value = "";
+  billTotalValue = 0;
+  peopleTotal.value = "";
+  peopleTotalValue = 0;
+  tipPerPerson.textContent = "$0.00";
+  tipPercentValue = 0;
+  totalPerPerson.textContent = "$0.00";
+  totalPerPersonValue = 0;
+  customTip.value = "";
+  resetColors();
+})
+

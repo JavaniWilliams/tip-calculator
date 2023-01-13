@@ -43,3 +43,79 @@ let formatter = new Intl.NumberFormat('en-US', {
   currency: 'USD',
 });
 let mq = window.matchMedia('(max-width: 375px)');
+
+function resetColors() {
+  let i = 0;
+  for (i = 0; i < tipButtons.length - 1; i++) {
+    if (tipButtons[i].style.backgroundColor === 'var(--strong-cyan)') {
+      tipButtons[i].style.backgroundColor = '';
+    }
+  }
+}
+
+function changeBg() {
+  resetColors();
+  this.style.backgroundColor = 'var(--strong-cyan)';
+}
+
+if (/^\d*\.?\d*$/.test(this.value)) {
+    console.log(this.value);
+    billTotalValue = this.value;
+    console.log(billTotalValue);
+    console.log(e.data);
+    if (e.data != null) {
+      if (this.value != "" && !this.value.includes(".")) {
+        billTotal.value = (parseInt(this.value)).toString();
+      } else if (e.data.includes(".") && !this.value.includes(".") && this.value != "") {
+        billTotal.value = (parseFloat(this.value)).toString();
+      }
+    }
+    calculate();
+  } else {
+    this.value = billTotalValue.toString();
+    this.classList.add("shake");
+    this.classList.add("error-display")
+    errorMessage2.classList.add("visible");
+    errorMessage2.classList.remove("invisible");
+    setTimeout(function() {
+      billTotal.classList.remove("shake")
+      billTotal.classList.remove("error-display");
+      errorMessage2.classList.add("invisible");
+      errorMessage2.classList.remove("visible");
+    }, 500);
+  }
+})
+
+billTotal.addEventListener("keydown", function(e) {
+  let keyID = e.keyCode;
+  if (keyID === 8) {
+    if (this.value.length > 1) {
+      this.value = this.value.substring(0, this.value.length);
+    }
+  }
+})
+
+peopleTotal.addEventListener("input", function(e) {
+  if (/^\d*?\d*$/.test(this.value)) {
+    peopleTotalValue = this.value;
+    if (e.data != null) {
+      if (this.value != "") {
+        peopleTotal.value = (parseInt(this.value)).toString();
+      }
+    }
+    calculate();
+  } else {
+    this.value = peopleTotalValue.toString();
+    this.classList.add("error-display");
+    this.classList.add("shake");
+    errorMessage1.classList.add("visible");
+    errorMessage1.classList.remove("invisible")
+    setTimeout(
+      function()  {
+                    peopleTotal.classList.remove("shake");
+                    peopleTotal.classList.remove("error-display");
+                    errorMessage1.classList.remove("visible");
+                    errorMessage1.classList.add("invisible");
+                  }, 1000);
+  }
+})

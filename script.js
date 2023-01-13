@@ -119,3 +119,4 @@ peopleTotal.addEventListener("input", function(e) {
                   }, 1000);
   }
 })
+
